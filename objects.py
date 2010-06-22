@@ -7,6 +7,7 @@ import math
 
 from retrogamelib import gameobject
 from retrogamelib import button
+from retrogamelib import display
 from retrogamelib.constants import *
 from retrogamelib.util import *
 
@@ -168,11 +169,14 @@ class Platform(Collidable):
 	
 	def __init__(self, pos, imagepos, slant=0 ):
 		Collidable.__init__(self)
-		self.sheet = load_image("gfx/platform.png")
-		self.image = pygame.Surface((16, 16))
-		self.image.set_colorkey((0, 0, 0), pygame.RLEACCEL)
-		self.image.blit(self.sheet, (-imagepos[0]*16, 
-			-imagepos[1]*16, 16, 16))
+		if type(imagepos) == tuple or type(imagepos) == list:
+			self.sheet = load_image("gfx/platform.png")
+			self.image = pygame.Surface((16, 16))
+			self.image.set_colorkey((0, 0, 0), pygame.RLEACCEL)
+			self.image.blit(self.sheet, (-imagepos[0]*16, 
+				-imagepos[1]*16, 16, 16))
+		else:
+			self.image = load_image(imagepos)
 		self.rect = self.image.get_rect(topleft = pos)
 		self.slant = slant  #1 for up slope right, -1 for down slope right
 		self.z = -3
@@ -206,6 +210,43 @@ class FallingPlatform(Platform):
 			self.rect.move_ip(0, self.jump_speed)
 			if self.rect.top > 200:
 				self.kill()
+				
+class MovingPlatform(Platform):
+	def __init__(self, pos, axis=1, dir=1, length=16, speed=1):
+		#axis: 1 = horizontal movement. 2 = vertical movement.
+		#dir: 1 = right/down, 2 = left/up
+		Platform.__init__(self, pos, "gfx/longblock.png")
+		self.axis = axis
+		self.dir = dir
+		self.length = length
+		self.speed = speed
+		self.startx = self.rect.left
+		self.starty = self.rect.top
+		print self.axis, self.dir, self.rect.left, self.rect.top
+		
+	def update(self, tiles):
+		if self.axis == 1:
+			if self.dir == 1:
+				if self.rect.left <= self.startx+self.length:
+					self.rect.move_ip(self.speed, 0)
+				else:
+					self.dir = 2
+			else:
+				if self.rect.left >= self.startx:
+					self.rect.move_ip(-self.speed, 0)
+				else:
+					self.dir = 1
+		else:
+			if self.dir == 1:
+				if self.rect.top <= self.starty+self.length:
+					self.rect.move_ip(0, self.speed)
+				else:
+					self.dir = 2
+			else:
+				if self.rect.top >= self.starty:
+					self.rect.move_ip(0, -self.speed)
+				else:
+					self.dir = 1
 
 class Baddie(Collidable):
 	

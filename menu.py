@@ -3,6 +3,7 @@
 #
 #	   menu.py
 
+import time
 import pygame
 import os
 import sys
@@ -72,6 +73,8 @@ def run_menu():
 					"",
 					"Programming by",
 					"Tommy Brunn",
+					"pymike",
+					"saluk",
 					"",
 					"",
 					"",

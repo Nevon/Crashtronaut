@@ -7,6 +7,10 @@
 # F = Falling block
 # S = Spring
 # . = Nothing
+# Y = Moving platform going UP
+# U = Moving platform going DOWN
+# I = Moving platform going RIGHT
+# O = Moving platform going LEFT
 
 
 BLANK = [
@@ -28,7 +32,7 @@ list("...................."),
 list("............CC......"),
 list("CC..........CC...CC."),
 list("CC...............CC."),
-list("....FF...B..PP....B."),
+list("....U....B..PP....B."),
 list("PR.....LPP..PP..PPPP"),
 list("PPPP...PPP......PPPP"),
 ]

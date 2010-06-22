@@ -25,6 +25,14 @@ class TileEngine(object):
 					self.tiles[y][x] = Platform((x*16, y*16), [3, 2])
 				if char == "F":
 					self.tiles[y][x] = FallingPlatform((x*16, y*16), [3, 2])
+				if char == "Y":
+					self.tiles[y][x] = MovingPlatform((x*16, y*16), 2, 2)
+				if char == "U":
+					self.tiles[y][x] = MovingPlatform((x*16, y*16), 2, 1)
+				if char == "I":
+					self.tiles[y][x] = MovingPlatform((x*16, y*16), 1, 1)
+				if char == "O":
+					self.tiles[y][x] = MovingPlatform((x*16, y*16), 1, 2)
 				if char == "P":
 					imgpos = [1, 1]
 					if self.get_at(x-1, y) not in platforms:

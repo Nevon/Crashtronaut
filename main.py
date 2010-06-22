@@ -3,6 +3,7 @@
 #
 #	   main.py
 
+import time
 import sys
 from retrogamelib import display
 from retrogamelib.constants import *

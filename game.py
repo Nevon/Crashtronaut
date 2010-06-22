@@ -27,6 +27,7 @@ class Game(object):
 		self.dead = gameobject.Group()
 		self.springs = gameobject.Group()
 		self.FallingPlatforms = gameobject.Group()
+		self.MovingPlatforms = gameobject.Group()
 		
 		Player.groups = [self.objects]
 		Platform.groups = [self.objects]
@@ -37,6 +38,7 @@ class Game(object):
 		Death.groups = [self.objects, self.dead]
 		Spring.groups = [self.objects, self.springs]
 		FallingPlatform.groups = [self.objects, self.FallingPlatforms]
+		MovingPlatform.groups = [self.objects, self.MovingPlatforms]
 		
 		self.font = font.Font(GAMEBOY_FONT, (225, 225, 225))
 		self.background = load_image("gfx/background.png")
