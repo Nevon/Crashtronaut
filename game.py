@@ -23,6 +23,7 @@ class Game(object):
 		
 		self.objects = gameobject.Group()
 		self.coins = gameobject.Group()
+		self.extralives = gameobject.Group()
 		self.baddies = gameobject.Group()
 		self.dead = gameobject.Group()
 		self.springs = gameobject.Group()
@@ -32,6 +33,7 @@ class Game(object):
 		Player.groups = [self.objects]
 		Platform.groups = [self.objects]
 		Coin.groups = [self.objects, self.coins]
+		ExtraLife.groups = [self.objects, self.extralives]
 		Points.groups = [self.objects]
 		Poof.groups = [self.objects]
 		Baddie.groups = [self.objects, self.baddies]
@@ -181,6 +183,14 @@ class Game(object):
 				self.score += 25
 				Poof(c.rect.center)
 				play_sound("sfx/coin.ogg")
+				
+		# Extra lives!
+		for l in self.extralives:
+			if self.player.rect.colliderect(l.rect):
+				l.kill()
+				self.lives += 1
+				Poof(l.rect.center)
+				#Play 1-up sound
 		
 		# Will you live, or die?
 		for b in self.baddies:
@@ -218,6 +228,17 @@ class Game(object):
 					p.touched = True
 					print str(p)+" was touched."
 					break
+		
+		# Check if the player is on a horizontally moving platform
+		for p in self.MovingPlatforms:
+			if p.axis == 2:
+				continue
+			for i in range(p.rect.left, p.rect.left+p.rect.width):
+				if self.player.rect.collidepoint(i , p.rect.top-1):
+					if p.dir == 1:
+						self.player.rect.move_ip(p.speed,0)
+					else:
+						self.player.rect.move_ip(-p.speed,0)
 	
 	def draw(self):
 		screen = display.get_surface()

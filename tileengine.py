@@ -70,3 +70,5 @@ class TileEngine(object):
 					Baddie((x*16 + 4, y*16 + 4))
 				if char == "S":
 					Spring((x*16, y*16))
+				if char == "H":
+					ExtraLife((x*16,y*16))

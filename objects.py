@@ -299,6 +299,15 @@ class Coin(Collidable):
 		self.frame += 1
 		self.image = self.images[self.frame/4%4]
 
+class ExtraLife(Collidable):
+	def __init__(self, pos):
+		Collidable.__init__(self)
+		self.image = load_image("gfx/life.png")
+		self.rect = self.image.get_rect(topleft = pos)
+		self.z = -2
+	def update(self, tiles):
+		pass
+
 class Points(Collidable):
 	
 	def __init__(self, score, pos, font):
