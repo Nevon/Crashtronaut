@@ -1,0 +1,16 @@
+Crashtronaut is a 2D sidescrolling platformer about an unlucky 
+astronaut who crashes his rocket on an alien planet, and now has to...
+Collect parts and... Go somewhere... For some reason... In order to get
+home.
+
+HOW TO RUN
+Have Python and Pygame installed and run main.py.
+
+HOW TO PLAY
+Either use a gamepad or a keyboard.
+Jump = Z
+Movement = Arrow keys
+Start = Enter
+
+At this point, there aren't any original levels or anything. So there's 
+not all that much to play through.
