@@ -107,7 +107,7 @@ def run_menu():
 					"",
 					"",
 					"",
-					" Thanks for playing!!"]
+					" Thanks for playing!"]
 				while pos > -144-(len(credits)*7):
 					button.handle_input()
 					if button.is_pressed(START):

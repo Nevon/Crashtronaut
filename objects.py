@@ -7,7 +7,6 @@ import math
 
 from retrogamelib import gameobject
 from retrogamelib import button
-from retrogamelib import display
 from retrogamelib.constants import *
 from retrogamelib.util import *
 
@@ -303,7 +302,8 @@ class ExtraLife(Collidable):
 	def __init__(self, pos):
 		Collidable.__init__(self)
 		self.image = load_image("gfx/life.png")
-		self.rect = self.image.get_rect(topleft = pos)
+		newpos = (pos[0]+self.image.get_width()/2, pos[1]+self.image.get_height()/2)
+		self.rect = self.image.get_rect(topleft = newpos)
 		self.z = -2
 	def update(self, tiles):
 		pass
