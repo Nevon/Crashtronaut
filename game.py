@@ -256,6 +256,8 @@ class Game(object):
 		ren = self.font.render("%06d    %d-1" % (self.score, self.level-1))
 		screen.blit(ren, (4, 14))
 		screen.blit(self.lifeicon, (160-30, 2))
+		ren = self.font.render("Fuel: "+str(self.player.fuel))
+		screen.blit(ren, (4, 134))
 		
 		if not self.player.alive() and not self.dead:
 			self.start_level(LEVELS[self.level-2])

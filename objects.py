@@ -127,6 +127,7 @@ class Player(Collidable):
 		self.flying = False
 		self.offsetx = -5
 		self.z = 0
+		self.fuel = 1
 	
 	def on_collision(self, dx, dy):		
 		if dy > 0 or dy < 0:			
@@ -182,8 +183,13 @@ class Player(Collidable):
 			else:
 				self.jump_speed += 0.8
 		else:
-			play_sound("sfx/burn.ogg", 0.2)
-			self.jump_speed += 0.05
+			if self.fuel <= 0:
+				self.fuel = 0
+				self.flying = False
+			else:
+				play_sound("sfx/burn.ogg", 0.2)
+				self.jump_speed = -1
+				self.fuel -= 0.01
 		if self.jump_speed > 5:
 			self.jump_speed = 5
 		

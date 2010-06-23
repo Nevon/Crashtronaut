@@ -11,7 +11,7 @@ screen = None
 surface = None
 resolution = None
 
-def init(scale=2.0, caption="NES Game", res=NESRES):
+def init(scale=2.0, caption="NES Game", res=NESRES, icon=False):
     """Initialise the SDL display -> return None
     """
     
@@ -23,6 +23,8 @@ def init(scale=2.0, caption="NES Game", res=NESRES):
     pygame.init()
     
     pygame.display.set_caption(caption)
+    if icon != False:
+		pygame.display.set_icon(pygame.image.load(icon))
     screen = pygame.display.set_mode((
         int(resolution[0]*SCALE), 
         int(resolution[1]*SCALE)))
