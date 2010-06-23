@@ -94,7 +94,7 @@ class Collidable(gameobject.Object):
 
 class Player(Collidable):
 	
-	def __init__(self):
+	def __init__(self, fuel):
 		Collidable.__init__(self)
 	   
 		self.right_images = [
@@ -106,15 +106,6 @@ class Player(Collidable):
 		self.left_images = []
 		for img in self.right_images:
 			self.left_images.append(pygame.transform.flip(img, 1, 0))
-			
-		#self.right_jet_images = [
-			#load_image("gfx/player-jet-1.png"),
-			#load_image("gfx/player-jet-2.png")
-		#]
-		
-		#self.left_jet_images = []
-		#for img in self.right_jet_images:
-			#self.left_jet_images.append(pygame.transform.flip(img, 1, 0))
 		
 		self.images = self.right_images
 		self.image = self.images[0]
@@ -127,7 +118,7 @@ class Player(Collidable):
 		self.flying = False
 		self.offsetx = -5
 		self.z = 0
-		self.fuel = 1
+		self.fuel = fuel
 	
 	def on_collision(self, dx, dy):		
 		if dy > 0 or dy < 0:			
@@ -155,7 +146,7 @@ class Player(Collidable):
 				self.jumping = True
 		
 		if self.jumping:
-			if button.is_pressed(A_BUTTON) and self.jump_speed >= -2 and self.jump_speed <= 2:
+			if button.is_pressed(A_BUTTON) and self.jump_speed >= -2 and self.jump_speed <= 5:
 				if button.is_held(A_BUTTON):
 					self.flying = True
 			if not button.is_held(A_BUTTON):
@@ -189,7 +180,6 @@ class Player(Collidable):
 			else:
 				play_sound("sfx/burn.ogg", 0.2)
 				self.jump_speed = -1
-				self.fuel -= 0.01
 		if self.jump_speed > 5:
 			self.jump_speed = 5
 		

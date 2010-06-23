@@ -49,6 +49,7 @@ class Game(object):
 		self.score = 0
 		self.level = 1
 		self.lives = 5
+		self.fuel = 1
 		self.show_win_screen = False
 		
 		self.engine = TileEngine()
@@ -59,7 +60,7 @@ class Game(object):
 		if self.lives > 0:
 			for obj in self.objects:
 				obj.kill()
-			self.player = Player()
+			self.player = Player(fuel=self.fuel)
 			self.engine.parse_level(level)
 			self.camera.centerx = self.player.rect.centerx
 		else:
@@ -74,6 +75,7 @@ class Game(object):
 			Death(self.player.rect.center)
 			#pygame.mixer.music.stop()
 			play_sound("sfx/die.ogg")
+			self.fuel = 1
 
 	def win(self):
 		splash = display.get_surface().copy()
@@ -175,6 +177,15 @@ class Game(object):
 		# Make sure we don't move off the far left of the level
 		if self.player.rect.left < 0:
 			self.player.rect.left = 0
+			
+		#Subtract fuel if we're flying
+		if self.player.flying:
+			if self.fuel < 0 or self.player.fuel < 0:
+				self.fuel = 0
+				self.player.fuel = 0
+			else:
+				self.fuel -= 0.01
+				self.player.fuel -= 0.01
 		
 		# Get rich quick!
 		for c in self.coins:
@@ -256,7 +267,7 @@ class Game(object):
 		ren = self.font.render("%06d    %d-1" % (self.score, self.level-1))
 		screen.blit(ren, (4, 14))
 		screen.blit(self.lifeicon, (160-30, 2))
-		ren = self.font.render("Fuel: "+str(self.player.fuel))
+		ren = self.font.render("Fuel: "+str(self.fuel*100)+"%")
 		screen.blit(ren, (4, 134))
 		
 		if not self.player.alive() and not self.dead:
