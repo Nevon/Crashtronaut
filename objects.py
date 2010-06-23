@@ -182,6 +182,7 @@ class Player(Collidable):
 			else:
 				self.jump_speed += 0.8
 		else:
+			play_sound("sfx/burn.ogg", 0.2)
 			self.jump_speed += 0.05
 		if self.jump_speed > 5:
 			self.jump_speed = 5
