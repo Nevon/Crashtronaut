@@ -100,11 +100,22 @@ class Player(Collidable):
 		self.right_images = [
 			load_image("gfx/player-1.png"),
 			load_image("gfx/player-2.png"),
+			load_image("gfx/player-jet-1.png"),
+			load_image("gfx/player-jet-2.png")
 		]
 		self.left_images = []
 		for img in self.right_images:
 			self.left_images.append(pygame.transform.flip(img, 1, 0))
-	   
+			
+		#self.right_jet_images = [
+			#load_image("gfx/player-jet-1.png"),
+			#load_image("gfx/player-jet-2.png")
+		#]
+		
+		#self.left_jet_images = []
+		#for img in self.right_jet_images:
+			#self.left_jet_images.append(pygame.transform.flip(img, 1, 0))
+		
 		self.images = self.right_images
 		self.image = self.images[0]
 		self.rect = pygame.Rect(8, 16, 6, 16)
@@ -113,6 +124,7 @@ class Player(Collidable):
 		self.jump_speed = 0
 		self.frame = 0
 		self.jumping = True
+		self.flying = False
 		self.offsetx = -5
 		self.z = 0
 	
@@ -141,6 +153,15 @@ class Player(Collidable):
 				self.jump_speed = -5
 				self.jumping = True
 		
+		if self.jumping:
+			if button.is_pressed(A_BUTTON) and self.jump_speed >= -2 and self.jump_speed <= 2:
+				if button.is_held(A_BUTTON):
+					self.flying = True
+			if not button.is_held(A_BUTTON):
+				self.flying = False
+		else:
+			self.flying = False
+		
 		if self.facing < 0:
 			self.images = self.left_images
 		else:
@@ -150,13 +171,18 @@ class Player(Collidable):
 			imgframe = self.frame/3%2
 		if self.jumping:
 			imgframe = 1
+		if self.flying:
+			imgframe = 2+(self.frame/2%2)
 		
 		self.image = self.images[imgframe]
 		
-		if button.is_held(A_BUTTON):
-			self.jump_speed += 0.4
+		if not self.flying:
+			if button.is_held(A_BUTTON) and not self.flying:
+				self.jump_speed += 0.4
+			else:
+				self.jump_speed += 0.8
 		else:
-			self.jump_speed += 0.8
+			self.jump_speed += 0.05
 		if self.jump_speed > 5:
 			self.jump_speed = 5
 		

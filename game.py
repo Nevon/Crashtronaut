@@ -236,9 +236,9 @@ class Game(object):
 			for i in range(p.rect.left, p.rect.left+p.rect.width):
 				if self.player.rect.collidepoint(i , p.rect.top-1):
 					if p.dir == 1:
-						self.player.rect.move_ip(p.speed,0)
+						self.player.move(p.speed,0,self.engine.tiles)
 					else:
-						self.player.rect.move_ip(-p.speed,0)
+						self.player.move(p.speed,0, self.engine.tiles)
 	
 	def draw(self):
 		screen = display.get_surface()
