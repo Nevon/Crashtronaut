@@ -75,7 +75,18 @@ class Game(object):
 			Death(self.player.rect.center)
 			#pygame.mixer.music.stop()
 			play_sound("sfx/die.ogg")
+			
+	def change_fuel(self, fuel, mode=1):
+		self.fuel += fuel*mode
+		self.player.fuel += fuel*mode
+		if self.fuel > 1:
 			self.fuel = 1
+		elif self.fuel < 0:
+			self.fuel = 0
+		if self.player.fuel > 1:
+			self.player.fuel = 1
+		elif self.player.fuel < 0:
+			self.player.fuel = 0
 
 	def win(self):
 		splash = display.get_surface().copy()
@@ -180,18 +191,14 @@ class Game(object):
 			
 		#Subtract fuel if we're flying
 		if self.player.flying:
-			if self.fuel < 0 or self.player.fuel < 0:
-				self.fuel = 0
-				self.player.fuel = 0
-			else:
-				self.fuel -= 0.01
-				self.player.fuel -= 0.01
+			self.change_fuel(0.01, mode=-1)
 		
 		# Get rich quick!
 		for c in self.coins:
 			if self.player.rect.colliderect(c.rect):
 				c.kill()
 				self.score += 25
+				self.change_fuel(0.01, mode=1)
 				Poof(c.rect.center)
 				play_sound("sfx/coin.ogg")
 				
@@ -237,7 +244,6 @@ class Game(object):
 			for i in range(p.rect.left, p.rect.left+p.rect.width):
 				if self.player.rect.collidepoint(i , p.rect.top-1):
 					p.touched = True
-					print str(p)+" was touched."
 					break
 		
 		# Check if the player is on a horizontally moving platform
@@ -267,7 +273,7 @@ class Game(object):
 		ren = self.font.render("%06d    %d-1" % (self.score, self.level-1))
 		screen.blit(ren, (4, 14))
 		screen.blit(self.lifeicon, (160-30, 2))
-		ren = self.font.render("Fuel: "+str(self.fuel*100)+"%")
+		ren = self.font.render("Fuel: "+str(int(self.fuel*100))+"%")
 		screen.blit(ren, (4, 134))
 		
 		if not self.player.alive() and not self.dead:

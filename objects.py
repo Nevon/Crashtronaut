@@ -244,7 +244,6 @@ class MovingPlatform(Platform):
 		self.speed = speed
 		self.startx = self.rect.left
 		self.starty = self.rect.top
-		print self.axis, self.dir, self.rect.left, self.rect.top
 		
 	def update(self, tiles):
 		if self.axis == 1:
