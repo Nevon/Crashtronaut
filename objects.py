@@ -94,7 +94,7 @@ class Collidable(gameobject.Object):
 
 class Player(Collidable):
 	
-	def __init__(self, fuel):
+	def __init__(self, fuel=100):
 		Collidable.__init__(self)
 	   
 		self.right_images = [
